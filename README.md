@@ -1,15 +1,12 @@
-# AudioSpectogram 1.0.0
+# AudioSpectrogram 1.0.0
 
 Lister plugin (WLX) for Total Commander.
 Shows music files as a spectrogram with technical data and measurements;
 compares up to four files. The file is only read, never changed.
-Manual: notes\manual\AudioSpectogram.html
+Manual: notes\manual\AudioSpectrogram.html
 Case collection with images (separate package): notes\cases
 
 The plugin measures and displays. It does not rate.
-
-<img width="1920" height="988" alt="03 The Four Seasons (Il quattro stagione), concertos (4) for violin, strings   continuo (&#39;&#39;Il cimento&#39;&#39; Nos  1-4) , Op  8,1 - 4- Spring  3  Allegro, Danza Pastorale" src="https://github.com/user-attachments/assets/5fefe641-8b14-4a35-a8c5-236776fe9a9a" />
-
 
 ## Display
 - Spectrogram 
@@ -29,9 +26,9 @@ The plugin measures and displays. It does not rate.
 - Play
   - click in the spectrogram plays the file from that position; a line shows where it is. Space = pause / continue, Esc = stop (Esc again closes Lister). In comparison the clicked file is played. Can be switched off in the settings.
 - Settings...
-  - right click; click to play, language, cache (limit, folder, clear). Values are stored in AudioSpectogram.ini
+  - right click; click to play, language, cache (limit, folder, clear). Values are stored in AudioSpectrogram.ini
 - Language
-  - AudioSpectogram.lng holds the texts. The plugin follows the language of Total Commander; a fixed language can be set in the settings. Missing texts stay English. How to add a language is described in the file.
+  - AudioSpectrogram.lng holds the texts. The plugin follows the language of Total Commander; a fixed language can be set in the settings. Missing texts stay English. How to add a language is described in the file.
 - Light / dark mode
   - the window follows Total Commander; the chart area is dark in both modes, so colours mean the same
 - The measurement table is hidden automatically in small windows.
@@ -136,7 +133,7 @@ These are observations, not limits. Other encoders, versions and pieces give oth
 FFT 2048 points, Hann window. Levels in dBFS: a full-scale sine on a bin frequency reads 0.0 dB. A tone between two bins reads up to 1.4 dB lower. "Mixed" is the mean power of L and R.
 
 ## Cache
-Stored are format data, measurements and the average spectrum, about 13 KB per file. The spectrogram is recalculated every time. Location: `%LOCALAPPDATA%\AudioSpectogram\Cache` (can be changed in the INI).
+Stored are format data, measurements and the average spectrum, about 13 KB per file. The spectrogram is recalculated every time. Location: `%LOCALAPPDATA%\AudioSpectrogram\Cache` (can be changed in the INI).
 If the audio file changes (size or date), it is measured again.
 When the limit is reached, the entries unused for the longest time are removed. "Clear cache" in the settings dialog empties the cache.
 The status line shows "values from cache" when the values come from it.
@@ -170,7 +167,7 @@ To load it on request only (Lister menu Options, Image/Multimedia, key 4), put F
 
 To leave a file type to another viewer, remove its EXT="..." entry.
 
-## Settings (AudioSpectogram.ini in the plugin folder)
+## Settings (AudioSpectrogram.ini in the plugin folder)
 - Section [General]: ClickToPlay, Language.
 - Section [View] stores the choices made in the right-click menu.
 - Section [Cache]: Enabled, MaxSizeMB, Path.
