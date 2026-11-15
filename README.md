@@ -8,6 +8,9 @@ Case collection with images (separate package): notes\cases
 
 The plugin measures and displays. It does not rate.
 
+<img width="1920" height="988" alt="03 The Four Seasons (Il quattro stagione), concertos (4) for violin, strings   continuo (&#39;&#39;Il cimento&#39;&#39; Nos  1-4) , Op  8,1 - 4- Spring  3  Allegro, Danza Pastorale" src="https://github.com/user-attachments/assets/5fefe641-8b14-4a35-a8c5-236776fe9a9a" />
+
+
 ## Display
 - Spectrogram 
   - X = time, Y = frequency (kHz), colour = level (dB)
