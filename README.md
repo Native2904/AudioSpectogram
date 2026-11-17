@@ -8,6 +8,9 @@ Case collection with images (separate package): notes\cases
 
 The plugin measures and displays. It does not rate.
 
+<img width="1920" height="1039" alt="2026-11-17_131742" src="https://github.com/user-attachments/assets/d289b8ef-f981-4f01-81c4-3e3338e6c583" />
+
+
 ## Display
 - Spectrogram 
   - X = time, Y = frequency (kHz), colour = level (dB)
