@@ -1,4 +1,4 @@
-# AudioSpectrogram 1.0.0
+# AudioSpectrogram 1.3.3
 
 Lister plugin (WLX) for Total Commander.
 Shows music files as a spectrogram with technical data and measurements;
@@ -8,28 +8,30 @@ Case collection with images (separate package): notes\cases
 
 The plugin measures and displays. It does not rate.
 
-<img width="1920" height="988" alt="03 The Four Seasons (Il quattro stagione), concertos (4) for violin, strings   continuo (&#39;&#39;Il cimento&#39;&#39; Nos  1-4) , Op  8,1 - 4- Spring  3  Allegro, Danza Pastorale" src="https://github.com/user-attachments/assets/5fefe641-8b14-4a35-a8c5-236776fe9a9a" />
-
-
 ## Display
 - Spectrogram 
   - X = time, Y = frequency (kHz), colour = level (dB)
 - Average spectrum 
   - X = frequency (kHz), Y = level (dB)
+- Third-octave bands
+  - the average spectrum summed in 1/3-octave bands (IEC 61260, 25 Hz to 20 kHz at 44.1 kHz), one bar per band; in comparison one bar per file and band. A full-scale sine reads 0 dB in its band, wherever it lies between two FFT bins. Calculated with a larger FFT (16384 at 44.1/48 kHz); until it is ready the bands from 200 Hz upward come from FFT 2048. An empty slot means the band is below -100 dB. Copy measurements (Ctrl+C) adds the band values.
 - Measuring cursor
   - move the mouse over the chart; values at top right
 - Dashed line
   - measured cutoff frequency
 - Zoom (spectrogram)
-  - mouse wheel enlarges the time axis at the mouse position (down to about 1/40 of the length); drag with the left button to move; double click or "Reset zoom" shows the whole length again. Works in comparison too.
+  - mouse wheel enlarges the time axis at the mouse position (down to half a second), Ctrl + mouse wheel the frequency axis (down to 1/100). Drag with the left button to move, in both directions. Double click or "Reset zoom" shows everything again. Works in comparison too.
+  - The visible part is analysed again (status line: "Refining"); until then the enlarged image of the whole file is shown. For a narrow frequency range the FFT size grows automatically (4096 to 16384); the status line shows the size in use. A larger FFT separates frequencies more finely but blurs in time: a mathematical limit, not a defect.
 - Right click 
   - view, channels, frequency axis, measurements on/off
 - Save image (PNG)... 
   - right click; saves the current view as shown, without the mouse cursor lines, in the size of the window
 - Play
   - click in the spectrogram plays the file from that position; a line shows where it is. Space = pause / continue, Esc = stop (Esc again closes Lister). In comparison the clicked file is played. Can be switched off in the settings.
+- Playback bar
+  - below the time axis: play / pause, stop, loop (start again at the end), position and length (m:ss.mmm), volume. Space starts playback from the left edge of the visible range. Play starts at the left edge of the visible range. Volume: drag, click or mouse wheel over the bar; 100 % = original level, it only gets quieter. Only the sound changes, never a measurement. In comparison a coloured mark shows which file plays. Not in the saved PNG.
 - Settings...
-  - right click; click to play, language, cache (limit, folder, clear). Values are stored in AudioSpectrogram.ini
+  - right click; click to play, language, colour scheme, cache (limit, folder, clear). Values are stored in AudioSpectrogram.ini
 - Language
   - AudioSpectrogram.lng holds the texts. The plugin follows the language of Total Commander; a fixed language can be set in the settings. Missing texts stay English. How to add a language is described in the file.
 - Light / dark mode
@@ -52,7 +54,7 @@ The plugin measures and displays. It does not rate.
 - The log contains measurements only, no rating and no ranking.
 
 ## Colour scale
-The colour in the spectrogram stands for the level in dB, not for the frequency. Below the measurements, "Colour scale" shows the six anchor colours with their level: -120, -94, -67, -43, -19 and 0 dB.  
+The colour in the spectrogram stands for the level in dB, not for the frequency. The bar right of the spectrogram shows the scale from -120 to 0 dB. Colour schemes (settings dialog or INI): Standard, Aurora, Viridis, Magma, Fire, Green, Grey. In every scheme the brightness rises evenly with the level, so a quieter place never looks brighter than a louder one. Viridis is also readable with red-green colour blindness, Grey is meant for printing. The images in the manual and the case collection use Standard.  
 
 ## Measurements and their definitions
 - File / Format
@@ -90,7 +92,7 @@ For MP3 and AAC, level values refer to the decoder output.
 "-" means: not applicable to this file. For a silent file the level values and DR are empty.
 
 ## Measurement accuracy
-No conformance to a standard is claimed. Listed is what each value was checked against, the number of cases and the largest deviation observed. State: version 1.0.0.
+No conformance to a standard is claimed. Listed is what each value was checked against, the number of cases and the largest deviation observed. State: version 1.3.3 (measurement code unchanged since 1.0.0).
 
 | Value                 | Checked against                    | Cases | Largest dev. |
 |-----------------------|------------------------------------:|------:|-------------:|
@@ -106,6 +108,7 @@ No conformance to a standard is claimed. Listed is what each value was checked a
 | K-weighting filter    | ITU-R BS.1770-4, tables 1 and 2     |     8 | equal to 14  |
 |                       | (coefficients at 48 kHz)            |       | decimals     |
 | Vorbis, Opus decoder  | ffmpeg decoding the same file       |     2 | values equal |
+| Third-octave bands    | FFT of the whole file, exact band edges (sines 50, 1000, 1010.7 Hz; white and pink noise) | 5 | 0.01 dB (sines); 0.33 dB (noise, 25-40 Hz), below 0.1 dB from 80 Hz |
 
 Test material for the first four lines: CD rip, 15 tracks, 16 bit, 44.1 kHz, stereo, confirmed by AccurateRip (confidence 24 to 25). The balance deviation is the rounding of the two RMS values shown by foobar2000.
 
@@ -133,7 +136,7 @@ The cutoff is measured on the average spectrum of the whole file. An encoder tha
 These are observations, not limits. Other encoders, versions and pieces give other values; a cutoff can also come from the recording itself.
 
 ## Measurement basis of the spectrum
-FFT 2048 points, Hann window. Levels in dBFS: a full-scale sine on a bin frequency reads 0.0 dB. A tone between two bins reads up to 1.4 dB lower. "Mixed" is the mean power of L and R.
+FFT 2048 points, Hann window; all measurements use the analysis of the whole file with this size. Zoomed images may use a larger FFT (see Zoom). Levels in dBFS: a full-scale sine on a bin frequency reads 0.0 dB. A tone between two bins reads up to 1.4 dB lower. "Mixed" is the mean power of L and R.
 
 ## Cache
 Stored are format data, measurements and the average spectrum, about 13 KB per file. The spectrogram is recalculated every time. Location: `%LOCALAPPDATA%\AudioSpectrogram\Cache` (can be changed in the INI).
@@ -172,7 +175,8 @@ To leave a file type to another viewer, remove its EXT="..." entry.
 
 ## Settings (AudioSpectrogram.ini in the plugin folder)
 - Section [General]: ClickToPlay, Language.
-- Section [View] stores the choices made in the right-click menu.
+- Section [Player]: Volume, Loop.
+- Section [View] stores the choices made in the right-click menu and the colour scheme (ColourScheme).
 - Section [Cache]: Enabled, MaxSizeMB, Path.
 
 ## System requirements
@@ -189,9 +193,10 @@ build.bat prints the runtime of each file it has built.
 ## License
 MIT, see LICENSE.txt
 
-## Included decoders
+## Included decoders and colour scales
 - dr_flac, stb_vorbis (public domain / MIT)
 - libopus (BSD licence)
+- viridis, magma colour scales from matplotlib (CC0)
   
 See THIRD_PARTY.txt.
 
